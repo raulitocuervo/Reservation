@@ -84,9 +84,9 @@ namespace Reservation.Client.Services
         }
         #endregion
         #region RESERVATIONS
-        public async Task<(List<Reservation.Shared.Models.Reservation> reservations, string Message)> GetReservations()
+        public async Task<(List<Reservation.Shared.Models.Reservation> reservations, string Message)> GetReservations(int Order)
         {
-            var results = await HttpClient.GetAsync("/api/Reservation");
+            var results = await HttpClient.GetAsync($"/api/Reservation?Order={Order}");
             return results.IsSuccessStatusCode ? (await results.Content.ReadFromJsonAsync<List<Reservation.Shared.Models.Reservation>>(), results.ReasonPhrase) : (null, results.ReasonPhrase);
         }
         public async Task<(Reservation.Shared.Models.Reservation reservation, string Message)> GetReservationId(Guid id)
