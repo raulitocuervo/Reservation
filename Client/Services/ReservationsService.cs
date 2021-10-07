@@ -36,7 +36,7 @@ namespace Reservation.Client.Services
         public async Task<string> DeleteContactType(ContactType contactType)
         {
             var results = await HttpClient.SendAsync(new HttpRequestMessage(HttpMethod.Delete, "/api/ContactType") { Content = new StringContent(JsonConvert.SerializeObject(contactType), Encoding.UTF8, "application/json") });
-            return await Task.FromResult(results.ReasonPhrase);
+            return await results.Content.ReadAsStringAsync();
         }
         #endregion
         #region CONTACTS
@@ -58,7 +58,7 @@ namespace Reservation.Client.Services
         public async Task<string> DeleteContact(Contact contact)
         {
             var results = await HttpClient.SendAsync(new HttpRequestMessage(HttpMethod.Delete, "/api/Contact") { Content = new StringContent(JsonConvert.SerializeObject(contact), Encoding.UTF8, "application/json") });
-            return await Task.FromResult(results.ReasonPhrase);
+            return await results.Content.ReadAsStringAsync();
         }
         #endregion
         #region DESTINATIONS
@@ -80,7 +80,7 @@ namespace Reservation.Client.Services
         public async Task<string> DeleteDestination(Destination destination)
         {
             var results = await HttpClient.SendAsync(new HttpRequestMessage(HttpMethod.Delete, "/api/Destination") { Content = new StringContent(JsonConvert.SerializeObject(destination), Encoding.UTF8, "application/json") });
-            return await Task.FromResult(results.ReasonPhrase);
+            return await results.Content.ReadAsStringAsync();
         }
         #endregion
         #region RESERVATIONS
@@ -102,7 +102,7 @@ namespace Reservation.Client.Services
         public async Task<string> DeleteDestination(Reservation.Shared.Models.Reservation reservations)
         {
             var results = await HttpClient.SendAsync(new HttpRequestMessage(HttpMethod.Delete, "/api/Reservation") { Content = new StringContent(JsonConvert.SerializeObject(reservations), Encoding.UTF8, "application/json") });
-            return await Task.FromResult(results.ReasonPhrase);
+            return await results.Content.ReadAsStringAsync();
         }
         #endregion
     }
