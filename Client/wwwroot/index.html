@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
 <head>
@@ -9,6 +9,10 @@
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
     <link href="Reservation.Client.styles.css" rel="stylesheet" />
+
+    <script src="/jq/jquery.min.js"></script>
+    <link href="/css/datatable/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="/js/datatable/jquery.dataTables.min.js"></script>
 </head>
 
 <body>
@@ -20,6 +24,14 @@
         <a class="dismiss">🗙</a>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script>
+        function ActivateTable(table) {
+            $(table).DataTable().destroy();
+            $(table).DataTable({
+                responsive: true
+            });
+        }
+    </script>
 </body>
 
 </html>

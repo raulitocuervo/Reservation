@@ -1,9 +1,10 @@
 ﻿@page "/contacttypes_index"
 @inject ReservationsService ReservationsService
+@inject IJSRuntime JSRuntime
 @using Reservation.Shared.Models
 <h3>Contact Types</h3>
 @Message
-<table class="table-responsive">
+<table id="IndexTbl" class="table table-striped table-bordered">
     <thead>
         <tr>
             <th>Names</th>
@@ -27,15 +28,24 @@
 @code {
     private List<ContactType> contactTypes = new();
     private string Message;
+    private List<Action> actionsToRunAfterRender = new List<Action>();
     protected override async Task OnInitializedAsync()
     {
         var results = await ReservationsService.GetContactTypes();
         if (results.contactTypes != null) contactTypes = results.contactTypes;
         else Message = results.Message;
+        actionsToRunAfterRender.Add(() => JSRuntime.InvokeVoidAsync("ActivateTable", "#IndexTbl"));
+
     }
     private async Task Delete(ContactType contactType)
     {
         Message = await ReservationsService.DeleteContactType(contactType);
         if (Message.Contains("success", StringComparison.InvariantCultureIgnoreCase)) contactTypes.Remove(contactType);
+    }
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        foreach (var actionToRun in actionsToRunAfterRender) actionToRun();
+        actionsToRunAfterRender.Clear();
+        return base.OnAfterRenderAsync(firstRender);
     }
 }
