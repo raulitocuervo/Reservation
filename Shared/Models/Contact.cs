@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Reservation.Shared.Validations;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Reservation.Shared.Models
         public Guid Id { get; set; }
         [Required(ErrorMessage = "This field is required")]
         public string Name { get; set; }
-        [Required(ErrorMessage = "This field is required")]
+        [GuidAttribute(ErrorMessage = "Contact Type is required")]
         public Guid ContactTypeID { get; set; }
         [Required(ErrorMessage = "This field is required")]
         public DateTime BirthDate { get; set; }

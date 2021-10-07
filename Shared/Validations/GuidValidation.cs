@@ -12,9 +12,9 @@ namespace Reservation.Shared.Validations
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             if (value.ToString() == "00000000-0000-0000-0000-000000000000")
-                return new ValidationResult("This field is required");
+                return new ValidationResult(ErrorMessage);
             else if (!Guid.TryParse(value.ToString(), out var id))
-                return new ValidationResult("Invalid Id Validation");
+                return new ValidationResult(ErrorMessage);
             else
                 return ValidationResult.Success;
         }

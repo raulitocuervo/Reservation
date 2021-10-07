@@ -12,13 +12,13 @@ namespace Reservation.Shared.Models
     {
         [Key]
         public Guid Id { get; set; }
-        [Required(ErrorMessage = "This field is required")]
+        [Required(ErrorMessage = "Description is required")]
         public string Description { get; set; }
         [Required(ErrorMessage = "This field is required")]
         public DateTime Date { get; set; }
-        [GuidAttribute]
+        [GuidAttribute (ErrorMessage ="Destination is required")]
         public Guid DestinationId { get; set; }
-        [GuidAttribute]
+        [GuidAttribute (ErrorMessage ="Contact is required")]
         public Guid ContactId { get; set; }
 
         public Destination Destination { get; set; }
