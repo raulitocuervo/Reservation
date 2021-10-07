@@ -8,6 +8,19 @@
 @localizer[@Message]
 <h3>@localizer["Reservations"]</h3>
 <button><a href="/reservation_edit/0">@localizer["New Reservation"]</a></button>
+<div class="form-group row">
+    @Order
+    <label>@localizer["Sort"]</label>
+    <div class="col-sm-9">
+        <select class="form-control" @bind="Order" style="width:250px">
+            <option value="0">@localizer["By Date Ascending"]</option>
+            <option value="1">@localizer["By Date Descending"]</option>
+            <option value="2">@localizer["By Alphabetic Ascending"]</option>
+            <option value="3">@localizer["By Alphabetic Descending"]</option>
+            <option value="4">@localizer["By Ranking"]</option>
+        </select>
+    </div>
+</div>
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
@@ -39,14 +52,22 @@
     #region PROPERTIES
     private List<Reservation> reservations = new();
     private string Message = "";
+    private int _order = 0;
     private List<Action> actionsToRunAfterRender = new List<Action>();
+    public int Order
+    {
+        get => _order;
+        set
+        {
+            _order = value;
+            InvokeAsync(LoadData);
+        }
+    }
     #endregion
     #region INITIALIZATION AND DISPOSAL
     protected override async Task OnInitializedAsync()
     {
-        var results = await ReservationsService.GetReservations();
-        if (results.reservations != null) reservations = results.reservations;
-        else Message = results.Message;
+        await LoadData();
         //Adds invocation interops for JavaScript Datatable initialization, to be run after the page renders
         //actionsToRunAfterRender.Add(() => JSRuntime.InvokeVoidAsync("ActivateTableAll"));
     }
@@ -58,9 +79,15 @@
         actionsToRunAfterRender.Clear();
         return base.OnAfterRenderAsync(firstRender);
     }
-    public async ValueTask DisposeAsync()
+    public async ValueTask DisposeAsync() => await JSRuntime.InvokeVoidAsync("RemoveTableAll");
+    #endregion
+    #region DATA LOAD
+    private async Task LoadData()
     {
-        await JSRuntime.InvokeVoidAsync("RemoveTableAll");
+        var results = await ReservationsService.GetReservations(Order);
+        if (results.reservations != null) reservations = results.reservations;
+        else Message = results.Message;
+        await InvokeAsync(StateHasChanged);
     }
     #endregion
     #region ACTIONS

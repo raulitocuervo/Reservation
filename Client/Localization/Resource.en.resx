@@ -222,6 +222,9 @@
   <data name="Select a destination" xml:space="preserve">
     <value>Select a destination</value>
   </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sort</value>
+  </data>
   <data name="This field is required" xml:space="preserve">
     <value>This field is required</value>
   </data>

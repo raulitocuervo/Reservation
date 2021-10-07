@@ -47,7 +47,24 @@ namespace Reservation.Server.Services
         public async Task<Destination> GetDestinationById(Guid Id) => await context.Destinations.FirstOrDefaultAsync(p => p.Id == Id);
         #endregion
         #region Reservations
-        public async Task<List<Shared.Models.Reservation>> GetReservations() => await context.Reservations.Include(p=>p.Contact).Include(p=>p.Destination).AsQueryable().AsNoTracking().ToListAsync();
+        public async Task<List<Shared.Models.Reservation>> GetReservations(int Order)
+        {
+            switch (Order)
+            {
+                case 0:
+                    return await context.Reservations.Include(p => p.Contact).Include(p => p.Destination).OrderBy(p=>p.Date).AsQueryable().AsNoTracking().ToListAsync();
+                case 1:
+                    return await context.Reservations.Include(p => p.Contact).Include(p => p.Destination).OrderByDescending(p => p.Date).AsQueryable().AsNoTracking().ToListAsync();
+                case 2:
+                    return await context.Reservations.Include(p => p.Contact).Include(p => p.Destination).OrderBy(p => p.Destination.Name).AsQueryable().AsNoTracking().ToListAsync();
+                case 3:
+                    return await context.Reservations.Include(p => p.Contact).Include(p => p.Destination).OrderByDescending(p => p.Destination.Name).AsQueryable().AsNoTracking().ToListAsync();
+                case 4:
+                    return await context.Reservations.Include(p => p.Contact).Include(p => p.Destination).OrderBy(p => p.Ranking).AsQueryable().AsNoTracking().ToListAsync();
+                default:
+                    return await context.Reservations.Include(p => p.Contact).Include(p => p.Destination).AsQueryable().AsNoTracking().ToListAsync();
+            }            
+        }
         public async Task<Shared.Models.Reservation> GetReservationById(Guid Id) => await context.Reservations.Include(p => p.Contact).Include(p => p.Destination).FirstOrDefaultAsync(p => p.Id == Id);
         #endregion
         #region DATA GENERATOR

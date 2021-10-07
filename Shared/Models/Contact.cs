@@ -19,9 +19,7 @@ namespace Reservation.Shared.Models
         public Guid ContactTypeID { get; set; }
         [Required(ErrorMessage = "This field is required")]
         public DateTime BirthDate { get; set; }
-        public string PhoneNumber { get; set; }
-        public int Ranking { get; set; }
-        public bool Favorite { get; set; }
+        public string PhoneNumber { get; set; }        
 
         public ContactType ContactType { get; set; }
         [JsonIgnore]

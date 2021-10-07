@@ -20,11 +20,11 @@ namespace Reservation.Server.Controllers
         }
         // GET: api/<ContactController>
         [HttpGet]
-        public async Task<ActionResult> GetReservations()
+        public async Task<ActionResult> GetReservations(int Order)
         {
             try
             {
-                return Ok(await ReservationService.GetReservations());
+                return Ok(await ReservationService.GetReservations(Order));
             }
             catch (Exception ex)
             {

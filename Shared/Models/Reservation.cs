@@ -20,6 +20,8 @@ namespace Reservation.Shared.Models
         public Guid DestinationId { get; set; }
         [GuidAttribute (ErrorMessage ="Contact is required")]
         public Guid ContactId { get; set; }
+        public int Ranking { get; set; }
+        public bool Favorite { get; set; }
 
         public Destination Destination { get; set; }
         public Contact Contact { get; set; }
