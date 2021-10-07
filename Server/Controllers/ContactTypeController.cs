@@ -77,7 +77,7 @@ namespace Reservation.Server.Controllers
 
         // DELETE api/<ContactController>/5
         [HttpDelete]
-        public async Task<ActionResult> Delete(ContactType contacttype)
+        public async Task<ActionResult> Delete([FromBody] ContactType contacttype)
         {
             try
             {

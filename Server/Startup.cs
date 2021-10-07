@@ -27,8 +27,8 @@ namespace Reservation.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DbDataContext>(options => { options.UseSqlServer(Configuration.GetConnectionString("SqlServer")); });
-            services.AddScoped<ReservationService>();
             //services.AddDbContext<DbDataContext>(options => { options.UseInMemoryDatabase(databaseName: "Reservations"); });
+            services.AddScoped<ReservationService>();
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddSwaggerGen(c =>
