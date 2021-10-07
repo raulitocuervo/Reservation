@@ -1,0 +1,96 @@
+﻿@page "/contacts_edit/{contactId}"
+@inject ReservationsService ReservationsService
+@inject IJSRuntime JSRuntime
+@inject IStringLocalizer<Resource> localizer
+@inject NavigationManager NavigationManager
+@using Reservation.Shared.Models
+<h3>
+    @if (contactId == "0")
+    {@localizer["Create Contact"]}
+else
+{ @localizer["Edit Contact"]}
+</h3>
+@localizer[@Message]
+<EditForm Model="@contact" class="forms-sample" OnValidSubmit="SaveItem">
+    <DataAnnotationsValidator />
+    <div class="form-group row">
+        <label>@localizer["Name"]  </label>
+        <div class="col-sm-6">
+            <input style="width: 300px;" type="text" class="form-control" placeholder="@localizer["Name"]" @bind-value="contact.Name">
+            <ValidationMessage For="()=>contact.Name" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group row">
+            <label>@localizer["Birthdate"]</label>
+            <div class="col-sm-6">
+                <InputDate @bind-Value="contact.BirthDate" ParsingErrorMessage="@localizer["Must be a date"]" />
+                <ValidationMessage For="() => contact.BirthDate" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group row">
+            <label>@localizer["Phone Number"]</label>
+            <div class="col-sm-6">
+                <input style="width: 300px;" type="text" class="form-control" placeholder="@localizer["Phone Number"]" @bind-value="contact.PhoneNumber">
+                <ValidationMessage For="() => contact.PhoneNumber" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label>@localizer["Contact Type"]</label>
+        <div class="col-sm-9">
+            <select class="form-control" @bind="@contact.ContactTypeID" style="width:200px">
+                <option value="null">@localizer["Select a contact type"]</option>
+                @foreach (var item in contactTypes)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+            <ValidationMessage For="() => contact.ContactTypeID" />
+        </div>
+        </div>
+        <button type="submit" class="btn btn-primary mr-2">@localizer["Save"]</button>
+        <button type="reset" class="btn btn-light">@localizer["Cancel"]</button>
+    </EditForm>
+
+@code {
+    #region PROPERTIES
+    [Parameter] public string contactId { get; set; }
+    private Contact contact = new() { BirthDate = DateTime.Now };
+    private List<ContactType> contactTypes = new();
+    private string Message = "";
+    #endregion
+    #region INITIALIZATION AND DISPOSAL
+    //Reusing the same form for both create and edit item
+    protected override async Task OnInitializedAsync()
+    {
+        //Loading Contact Types List
+        contactTypes = (await ReservationsService.GetContactTypes()).contactTypes;
+        //Requesting existing Item from API using the Id (Edit)
+        try
+        {
+            if (contactId?.Length > 1)
+            {
+                var results = await ReservationsService.GetContactById(Guid.Parse(contactId));
+                if (results.contact != null) contact = results.contact;
+                else Message = results.Message;
+            }
+        }
+        catch (Exception ex)
+        {
+            Message = ex.Message;
+        }
+    }
+    #endregion
+    #region ACTIONS
+    private async Task SaveItem()
+    {
+        var results = await ReservationsService.SaveContact(contact, contactId?.Length < 2);
+        if (results.issuccess) NavigationManager.NavigateTo("/contacts_index");
+        else Message = results.Message;
+    }
+    #endregion
+
+}

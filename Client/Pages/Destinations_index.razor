@@ -1,4 +1,4 @@
-﻿@page "/contacttypes_index"
+﻿@page "/destinations_index"
 @inject ReservationsService ReservationsService
 @inject IJSRuntime JSRuntime
 @inject IStringLocalizer<Resource> localizer
@@ -6,8 +6,8 @@
 @implements IAsyncDisposable
 @* Localization for Automatic Translation using the browser language configuration *@
 @localizer[@Message]
-<h3>@localizer["Contact Types"]</h3>
-<button><a href="/ContactTypes_edit/0">@localizer["New Contact Type"]</a></button>
+<h3>@localizer["Destinations"]</h3>
+<button><a href="/Destination_edit/0">@localizer["New Destination"]</a></button>
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
@@ -16,12 +16,12 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in contactTypes)
+        @foreach (var item in destinations)
         {
             <tr>
                 <td>@item.Name</td>
                 <td>
-                    <button><a href="/ContactTypes_edit/@item.Id">@localizer["Edit"]</a></button>
+                    <button><a href="/destination_edit/@item.Id">@localizer["Edit"]</a></button>
                     <button @onclick="()=>Delete(item)">@localizer["Delete"]</button>
                 </td>
             </tr>
@@ -31,15 +31,15 @@
 
 @code {
     #region PROPERTIES
-    private List<ContactType> contactTypes = new();
+    private List<Destination> destinations = new();
     private string Message = "";
     private List<Action> actionsToRunAfterRender = new List<Action>();
     #endregion
     #region INITIALIZATION AND DISPOSAL
     protected override async Task OnInitializedAsync()
     {
-        var results = await ReservationsService.GetContactTypes();
-        if (results.contactTypes != null) contactTypes = results.contactTypes;
+        var results = await ReservationsService.GetDestinations();
+        if (results.destinations != null) destinations = results.destinations;
         else Message = results.Message;
         //Adds invocation interops for JavaScript Datatable initialization, to be run after the page renders
         //actionsToRunAfterRender.Add(() => JSRuntime.InvokeVoidAsync("ActivateTableAll"));
@@ -58,10 +58,10 @@
     }
     #endregion
     #region ACTIONS
-    private async Task Delete(ContactType contactType)
+    private async Task Delete(Destination destination)
     {
-        Message = await ReservationsService.DeleteContactType(contactType);
-        if (Message.Contains("success", StringComparison.InvariantCultureIgnoreCase)) contactTypes.Remove(contactType);
+        Message = await ReservationsService.DeleteDestination(destination);
+        if (Message.Contains("success", StringComparison.InvariantCultureIgnoreCase)) destinations.Remove(destination);
     }
     #endregion
 

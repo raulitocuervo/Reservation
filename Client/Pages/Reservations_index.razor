@@ -1,4 +1,4 @@
-﻿@page "/contacttypes_index"
+﻿@page "/reservations_index"
 @inject ReservationsService ReservationsService
 @inject IJSRuntime JSRuntime
 @inject IStringLocalizer<Resource> localizer
@@ -6,40 +6,46 @@
 @implements IAsyncDisposable
 @* Localization for Automatic Translation using the browser language configuration *@
 @localizer[@Message]
-<h3>@localizer["Contact Types"]</h3>
-<button><a href="/ContactTypes_edit/0">@localizer["New Contact Type"]</a></button>
+<h3>@localizer["Reservations"]</h3>
+<button><a href="/reservation_edit/0">@localizer["New Reservation"]</a></button>
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
-            <th>@localizer["Names"]</th>
+            <th>@localizer["Destination"]</th>
+            <th>@localizer["Date"]</th>
+            <th>@localizer["Contact"]</th>
+            <th>@localizer["Description"]</th>
             <th>@localizer["Actions"]</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in contactTypes)
+        @foreach (var item in reservations)
         {
-            <tr>
-                <td>@item.Name</td>
-                <td>
-                    <button><a href="/ContactTypes_edit/@item.Id">@localizer["Edit"]</a></button>
-                    <button @onclick="()=>Delete(item)">@localizer["Delete"]</button>
-                </td>
-            </tr>
+        <tr>
+            <td>@item.Destination.Name</td>
+            <td>@item.Date</td>
+            <td>@item.Contact.Name</td>
+            <td>@item.Description</td>
+            <td>
+                <button><a href="/reservation_edit/@item.Id">@localizer["Edit"]</a></button>
+                <button @onclick="()=>Delete(item)">@localizer["Delete"]</button>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
 
 @code {
     #region PROPERTIES
-    private List<ContactType> contactTypes = new();
+    private List<Reservation> reservations = new();
     private string Message = "";
     private List<Action> actionsToRunAfterRender = new List<Action>();
     #endregion
     #region INITIALIZATION AND DISPOSAL
     protected override async Task OnInitializedAsync()
     {
-        var results = await ReservationsService.GetContactTypes();
-        if (results.contactTypes != null) contactTypes = results.contactTypes;
+        var results = await ReservationsService.GetReservations();
+        if (results.reservations != null) reservations = results.reservations;
         else Message = results.Message;
         //Adds invocation interops for JavaScript Datatable initialization, to be run after the page renders
         //actionsToRunAfterRender.Add(() => JSRuntime.InvokeVoidAsync("ActivateTableAll"));
@@ -58,10 +64,10 @@
     }
     #endregion
     #region ACTIONS
-    private async Task Delete(ContactType contactType)
+    private async Task Delete(Reservation reservation)
     {
-        Message = await ReservationsService.DeleteContactType(contactType);
-        if (Message.Contains("success", StringComparison.InvariantCultureIgnoreCase)) contactTypes.Remove(contactType);
+        Message = await ReservationsService.DeleteReservation(reservation);
+        if (Message.Contains("success", StringComparison.InvariantCultureIgnoreCase)) reservations.Remove(reservation);
     }
     #endregion
 
