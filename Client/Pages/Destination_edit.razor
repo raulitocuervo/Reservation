@@ -1,0 +1,62 @@
+﻿@page "/destination_edit/{destinationId}"
+@inject ReservationsService ReservationsService
+@inject IJSRuntime JSRuntime
+@inject IStringLocalizer<Resource> localizer
+@inject NavigationManager NavigationManager
+@using Reservation.Shared.Models
+<h3>
+    @if (destinationId == "0")
+    {@localizer["Create Destination"]}
+else
+{ @localizer["Edit Destination"]}
+</h3>
+@localizer[@Message]
+<EditForm Model="@destination" class="forms-sample" OnValidSubmit="SaveItem">
+    <DataAnnotationsValidator />
+    <div class="form-group row">
+        <label for="exampleInputName1">@localizer["Name"]  </label>
+        <div class="col-sm-10">
+            <input style="width: 300px;" type="text" class="form-control" placeholder="@localizer["Name"]" @bind-value="destination.Name">
+            <ValidationMessage For="()=>destination.Name" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary mr-2">@localizer["Save"]</button>
+    <button type="reset" class="btn btn-light">@localizer["Cancel"]</button>
+</EditForm>
+
+@code {
+    #region PROPERTIES
+    [Parameter] public string destinationId { get; set; }
+    private Destination destination = new();
+    private string Message = "";
+    #endregion
+    #region INITIALIZATION AND DISPOSAL
+    //Reusing the same form for both create and edit item
+    protected override async Task OnInitializedAsync()
+    {
+        //Requesting existing Item from API using the Id (Edit)
+        try
+        {
+            if (destinationId?.Length > 1)
+            {
+                var results = await ReservationsService.GetDestinationId(Guid.Parse(destinationId));
+                if (results.destination != null) destination = results.destination;
+                else Message = results.Message;
+            }
+        }
+        catch (Exception ex)
+        {
+            Message = ex.Message;
+        }
+    }
+    #endregion
+    #region ACTIONS
+    private async Task SaveItem()
+    {
+        var results = await ReservationsService.SaveDestination(destination, destinationId?.Length < 2);
+        if (results.issuccess) NavigationManager.NavigateTo("/destinations_index");
+        else Message = results.Message;
+    }
+    #endregion
+
+}

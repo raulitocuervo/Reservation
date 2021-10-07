@@ -1,0 +1,98 @@
+﻿@page "/reservation_edit/{reservationId}"
+@inject ReservationsService ReservationsService
+@inject IJSRuntime JSRuntime
+@inject IStringLocalizer<Resource> localizer
+@inject NavigationManager NavigationManager
+@using Reservation.Shared.Models
+<h3>
+    @if (reservationId == "0")
+    {@localizer["Create Reservation"]}
+else
+{ @localizer["Edit Reservation"]}
+</h3>
+@localizer[@Message]
+<EditForm Model="@reservation" class="forms-sample" OnValidSubmit="SaveItem">
+    <DataAnnotationsValidator />
+    <div class="form-group row">
+        <label>@localizer["Destination"]</label>
+        <div class="col-sm-9">
+            <select class="form-control" @bind="@reservation.DestinationId" style="width:250px">
+                <option value="null">@localizer["Select a destination"]</option>
+                @foreach (var item in destinations)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group row">
+            <label>@localizer["Date"]</label>
+            <div class="col-sm-6">
+                <InputDate @bind-Value="reservation.Date" ParsingErrorMessage="@localizer["Must be a date"]" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label>@localizer["Contact"]</label>
+        <div class="col-sm-9">
+            <select class="form-control" @bind="@reservation.ContactId" style="width:250px">
+                <option value="null">@localizer["Select a contact"]</option>
+                @foreach (var item in contacts)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label>@localizer["Description"]  </label>
+        <div class="col-sm-6">
+            <textarea style="width: 300px;" type="text" class="form-control" placeholder="@localizer["Description"]" rows="5" @bind="reservation.Description"/>
+        </div>
+    </div>    
+    <ValidationSummary/>
+    <button type="submit" class="btn btn-primary mr-2">@localizer["Save"]</button>
+    <button type="reset" class="btn btn-light">@localizer["Cancel"]</button>
+</EditForm>
+
+@code {
+    #region PROPERTIES
+    [Parameter] public string reservationId { get; set; }
+    private Reservation reservation = new() { Date = DateTime.Now };
+    private List<Contact> contacts = new();
+    private List<Destination> destinations = new();
+    private string Message = "";
+    #endregion
+    #region INITIALIZATION AND DISPOSAL
+    //Reusing the same form for both create and edit item
+    protected override async Task OnInitializedAsync()
+    {
+        //Loading Contacts and Destinations
+        contacts = (await ReservationsService.GetContacts()).contacts;
+        destinations = (await ReservationsService.GetDestinations()).destinations;
+        //Requesting existing Item from API using the Id (Edit)
+        try
+        {
+            if (reservationId?.Length > 1)
+            {
+                var results = await ReservationsService.GetReservationId(Guid.Parse(reservationId));
+                if (results.reservation != null) reservation = results.reservation;
+                else Message = results.Message;
+            }
+        }
+        catch (Exception ex)
+        {
+            Message = ex.Message;
+        }
+    }
+    #endregion
+    #region ACTIONS
+    private async Task SaveItem()
+    {
+        var results = await ReservationsService.SaveReservation(reservation, reservationId?.Length < 2);
+        if (results.issuccess) NavigationManager.NavigateTo("/reservations_index");
+        else Message = results.Message;
+    }
+    #endregion
+}

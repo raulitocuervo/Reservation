@@ -1,0 +1,62 @@
+﻿@page "/ContactTypes_edit/{contactTypeId}"
+@inject ReservationsService ReservationsService
+@inject IJSRuntime JSRuntime
+@inject IStringLocalizer<Resource> localizer
+@inject NavigationManager NavigationManager
+@using Reservation.Shared.Models
+<h3>
+    @if (contactTypeId == "0")
+    {@localizer["Create Contact Types"]}
+else
+{ @localizer["Edit Contact Types"]}
+</h3>
+@localizer[@Message]
+<EditForm Model="@ContactType" class="forms-sample" OnValidSubmit="SaveItem">
+    <DataAnnotationsValidator />
+    <div class="form-group row">
+        <label for="exampleInputName1">@localizer["Name"]  </label>
+        <div class="col-sm-10">
+            <input style="width: 300px;" type="text" class="form-control" placeholder="@localizer["Name"]" @bind-value="ContactType.Name">
+            <ValidationMessage For="()=>ContactType.Name" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary mr-2">@localizer["Save"]</button>
+    <button type="reset" class="btn btn-light">@localizer["Cancel"]</button>
+</EditForm>
+
+@code {
+    #region PROPERTIES
+    [Parameter] public string contactTypeId { get; set; }
+    private ContactType ContactType = new();
+    private string Message = "";
+    #endregion
+    #region INITIALIZATION AND DISPOSAL
+    //Reusing the same form for both create and edit item
+    protected override async Task OnInitializedAsync()
+    {
+        //Requesting existing Item from API using the Id (Edit)
+        try
+        {
+            if (contactTypeId?.Length > 1)
+            {
+                var results = await ReservationsService.GetContactTypeById(Guid.Parse(contactTypeId));
+                if (results.contactTypes != null) ContactType = results.contactTypes;
+                else Message = results.Message;
+            }
+        }
+        catch (Exception ex)
+        {
+            Message = ex.Message;
+        }
+    }
+    #endregion
+    #region ACTIONS
+    private async Task SaveItem()
+    {
+        var results = await ReservationsService.SaveContactType(ContactType, contactTypeId?.Length < 2);
+        if (results.issuccess) NavigationManager.NavigateTo("/contacttypes_index");
+        else Message = results.Message;
+    }
+    #endregion
+
+}

@@ -1,4 +1,5 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
+﻿@inject IStringLocalizer<Resource> localizer
+<div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">Reservation</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
@@ -9,12 +10,27 @@
     <ul class="nav flex-column">
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+                <span class="oi oi-home" aria-hidden="true"></span> @localizer["Home"]
             </NavLink>
         </li>
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="/contacttypes_index" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Contact Types
+                <span class="oi oi-home" aria-hidden="true"></span> @localizer["Contact Types"]
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/destinations_index" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span>@localizer["Destinations"]
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/contacts_index" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span>@localizer["Contacts"]
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/reservations_index" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span>@localizer["Reservations"]
             </NavLink>
         </li>
     </ul>
