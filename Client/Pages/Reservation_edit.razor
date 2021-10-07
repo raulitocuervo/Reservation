@@ -45,13 +45,47 @@ else
             </select>
         </div>
     </div>
-    <div class="form-group row">
-        <label>@localizer["Description"]  </label>
-        <div class="col-sm-6">
-            <textarea style="width: 300px;" type="text" class="form-control" placeholder="@localizer["Description"]" rows="5" @bind="reservation.Description"/>
+    <div class="row grid-margin">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body" >
+                    <h4 class="card-title">@localizer["Description"]</h4>
+                    <BlazoredTextEditor @ref="@QuillHtml">
+                        <ToolbarContent>
+                            <select class="ql-header">
+                                <option selected=""></option>
+                                <option value="1"></option>
+                                <option value="2"></option>
+                                <option value="3"></option>
+                                <option value="4"></option>
+                                <option value="5"></option>
+                            </select>
+                            <span class="ql-formats">
+                                <button class="ql-bold"></button>
+                                <button class="ql-italic"></button>
+                                <button class="ql-underline"></button>
+                                <button class="ql-strike"></button>
+                            </span>
+                            <span class="ql-formats">
+                                <select class="ql-color"></select>
+                                <select class="ql-background"></select>
+                            </span>
+                            <span class="ql-formats">
+                                <button class="ql-list" value="ordered"></button>
+                                <button class="ql-list" value="bullet"></button>
+                            </span>
+                            <span class="ql-formats">
+                                <button class="ql-link"></button>
+                            </span>
+                        </ToolbarContent>
+                        <EditorContent>@((MarkupString)reservation.Description)</EditorContent>
+                    </BlazoredTextEditor>
+                    <ValidationMessage For="()=>reservation.Description" />
+                </div>
+            </div>
         </div>
-    </div>    
-    <ValidationSummary/>
+    </div>
+    <ValidationSummary />
     <button type="submit" class="btn btn-primary mr-2">@localizer["Save"]</button>
     <button type="reset" class="btn btn-light">@localizer["Cancel"]</button>
 </EditForm>
@@ -62,6 +96,7 @@ else
     private Reservation reservation = new() { Date = DateTime.Now };
     private List<Contact> contacts = new();
     private List<Destination> destinations = new();
+    private BlazoredTextEditor QuillHtml;
     private string Message = "";
     #endregion
     #region INITIALIZATION AND DISPOSAL
@@ -90,7 +125,11 @@ else
     #region ACTIONS
     private async Task SaveItem()
     {
+        //Transforming the Description string Text to Html Text
+        reservation.Description = await QuillHtml.GetHTML();
+        //Saving Reservation considering its Id for creation or edition
         var results = await ReservationsService.SaveReservation(reservation, reservationId?.Length < 2);
+        //Navigate to Reservations' List Page
         if (results.issuccess) NavigationManager.NavigateTo("/reservations_index");
         else Message = results.Message;
     }
