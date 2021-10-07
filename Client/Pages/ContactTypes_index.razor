@@ -1,0 +1,41 @@
+﻿@page "/contacttypes_index"
+@inject ReservationsService ReservationsService
+@using Reservation.Shared.Models
+<h3>Contact Types</h3>
+@Message
+<table class="table-responsive">
+    <thead>
+        <tr>
+            <th>Names</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in contactTypes)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>
+                    <button>Edit</button>
+                    <button @onclick="()=>Delete(item)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<ContactType> contactTypes = new();
+    private string Message;
+    protected override async Task OnInitializedAsync()
+    {
+        var results = await ReservationsService.GetContactTypes();
+        if (results.contactTypes != null) contactTypes = results.contactTypes;
+        else Message = results.Message;
+    }
+    private async Task Delete(ContactType contactType)
+    {
+        Message = await ReservationsService.DeleteContactType(contactType);
+        if (Message.Contains("success", StringComparison.InvariantCultureIgnoreCase)) contactTypes.Remove(contactType);
+    }
+}

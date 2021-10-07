@@ -76,7 +76,7 @@ namespace Reservation.Server.Controllers
 
         // DELETE api/<ContactController>/5
         [HttpDelete]
-        public async Task<ActionResult> Delete(Shared.Models.Reservation reservation)
+        public async Task<ActionResult> Delete([FromBody] Shared.Models.Reservation reservation)
         {
             try
             {

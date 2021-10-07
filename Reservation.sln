@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reservation.Server", "Server\Reservation.Server.csproj", "{1F8566AA-25A0-4B54-BDD7-632A610B5553}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reservation.Server", "Server\Reservation.Server.csproj", "{1F8566AA-25A0-4B54-BDD7-632A610B5553}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reservation.Client", "Client\Reservation.Client.csproj", "{DC27E5B6-1D6C-47F8-98FB-A1D82C606E1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reservation.Client", "Client\Reservation.Client.csproj", "{DC27E5B6-1D6C-47F8-98FB-A1D82C606E1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reservation.Shared", "Shared\Reservation.Shared.csproj", "{BD9E4DA8-16F1-4593-8A31-E845E57A350A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reservation.Shared", "Shared\Reservation.Shared.csproj", "{BD9E4DA8-16F1-4593-8A31-E845E57A350A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
