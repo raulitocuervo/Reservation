@@ -65,7 +65,7 @@ namespace Reservation.Server.Services
                     return await context.Reservations.Include(p => p.Contact).Include(p => p.Destination).AsQueryable().AsNoTracking().ToListAsync();
             }            
         }
-        public async Task<Shared.Models.Reservation> GetReservationById(Guid Id) => await context.Reservations.Include(p => p.Contact).Include(p => p.Destination).FirstOrDefaultAsync(p => p.Id == Id);
+        public async Task<Shared.Models.Reservation> GetReservationById(Guid Id) => await context.Reservations.Include(p => p.Contact).ThenInclude(p=>p.ContactType).Include(p => p.Destination).FirstOrDefaultAsync(p => p.Id == Id);
         #endregion
         #region DATA GENERATOR
         private async Task InitializeData()
@@ -75,17 +75,17 @@ namespace Reservation.Server.Services
                     new ContactType
                     {
                         Name = "Sales Manager",
-                        Contacts = new List<Contact>() { new Contact { Name = "Linda May", BirthDate = new DateTime(1985, 1, 7) } }
+                        Contacts = new List<Contact>() { new Contact { Name = "Linda May", BirthDate = new DateTime(1985, 1, 7), PhoneNumber = "22652012" } }
                     },
                     new ContactType
                     {
                         Name = "Trip coordinator",
-                        Contacts = new List<Contact>() { new Contact { Name = "Joseph Ross", BirthDate = new DateTime(1985, 5, 8) } }
+                        Contacts = new List<Contact>() { new Contact { Name = "Joseph Ross", BirthDate = new DateTime(1985, 5, 8), PhoneNumber = "641660" } }
                     },
                     new ContactType
                     {
                         Name = "President",
-                        Contacts = new List<Contact>() { new Contact { Name = "Frederick Hulsz", BirthDate = new DateTime(1985, 9, 1) } }
+                        Contacts = new List<Contact>() { new Contact { Name = "Frederick Hulsz", BirthDate = new DateTime(1985, 9, 1), PhoneNumber = "142068" } }
                     });
                 }
             if (!(await context.Destinations.AnyAsync()))

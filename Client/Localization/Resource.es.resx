@@ -150,6 +150,9 @@
   <data name="Contact" xml:space="preserve">
     <value>Contacto</value>
   </data>
+  <data name="Contact Name" xml:space="preserve">
+    <value>Nombre de contacto</value>
+  </data>
   <data name="Contact Type" xml:space="preserve">
     <value>Tipo de Contacto</value>
   </data>
