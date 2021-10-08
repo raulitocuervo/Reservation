@@ -7,16 +7,15 @@
 @localizer[@Message]
 <h3>@localizer["Reservations"]</h3>
 <div class="form-group row">
-    <label>@localizer["Sort"]</label>
-    <div class="col-sm-9">
-        <select class="form-control" @bind="Order" style="width:250px">
-            <option value="0">@localizer["By Date Ascending"]</option>
-            <option value="1">@localizer["By Date Descending"]</option>
-            <option value="2">@localizer["By Alphabetic Ascending"]</option>
-            <option value="3">@localizer["By Alphabetic Descending"]</option>
-            <option value="4">@localizer["By Ranking"]</option>
-        </select>
-        <MudButton Variant="Variant.Filled" Color="Color.Error" @onclick="@(()=>NavigationManager.NavigateTo("/reservation_edit/0"))">@localizer["New Reservation"]</MudButton>
+    <div class="col-sm-2">
+        <MudButton Variant="Variant.Filled" Color="Color.Error" @onclick="@(()=>NavigationManager.NavigateTo("/reservation_edit/0"))">@localizer["New Reservation"]</MudButton>        
+        <MudSelect Label="@localizer["Sort"]" @bind-Value="Order" OffsetY="true" AdornmentIcon="@Icons.Material.Filled.Sort" AdornmentColor="Color.Default">
+            <MudSelectItem Value="0">@localizer["By Date Ascending"]</MudSelectItem>
+            <MudSelectItem Value="1">@localizer["By Date Descending"]</MudSelectItem>
+            <MudSelectItem Value="2">@localizer["By Alphabetic Ascending"]</MudSelectItem>
+            <MudSelectItem Value="3">@localizer["By Alphabetic Descending"]</MudSelectItem>
+            <MudSelectItem Value="4">@localizer["By Ranking"]</MudSelectItem>
+        </MudSelect>
     </div>
 </div>
 
