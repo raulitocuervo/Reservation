@@ -21,7 +21,7 @@ else
             <ValidationMessage For="()=>destination.Name" />
         </div>
     </div>
-    <button type="submit" class="btn btn-primary mr-2">@localizer["Save"]</button>
+    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Error">@localizer["Save"]</MudButton>
 </EditForm>
 
 @code {

@@ -25,8 +25,8 @@
             <td>@item.ContactType.Name</td>
             <td>@item.PhoneNumber</td>
             <td>
-                <button><a href="/contacts_edit/@item.Id">@localizer["Edit"]</a></button>
-                <button @onclick="()=>Delete(item)">@localizer["Delete"]</button>
+                <MudButton Link="@($"/contacts_edit/{item.Id}")" Variant="Variant.Filled" Color="Color.Default">@localizer["Edit"]</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Error" @onclick="()=>Delete(item)">@localizer["Delete"]</MudButton>
             </td>
         </tr>
         }

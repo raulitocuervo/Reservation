@@ -16,7 +16,7 @@
             <option value="3">@localizer["By Alphabetic Descending"]</option>
             <option value="4">@localizer["By Ranking"]</option>
         </select>
-        <button @onclick="@(()=>NavigationManager.NavigateTo("/reservation_edit/0"))">@localizer["New Reservation"]</button>
+        <MudButton Variant="Variant.Filled" Color="Color.Error" @onclick="@(()=>NavigationManager.NavigateTo("/reservation_edit/0"))">@localizer["New Reservation"]</MudButton>
     </div>
 </div>
 
@@ -33,11 +33,11 @@
         <MudTd>
             @localizer["Add to favorites"]
             <MudToggleIconButton Toggled="@context.Favorite" ToggledChanged="@((e)=>FavReservation(context, e))"
-                                 Icon="/images/heartfav.svg" Color="@Color.Dark" Title="Off"
-                                 ToggledIcon="/images/heartfav.svg" ToggledColor="@Color.Error" ToggledTitle="On" />
+                                 Icon="@Icons.Material.Filled.FavoriteBorder" Color="@Color.Dark" Title="Off"
+                                 ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Error" ToggledTitle="On" />
         </MudTd>
         <MudTd>
-            <button @onclick="@(()=>NavigationManager.NavigateTo($"/reservation_edit/{context.Id}"))">@localizer["Edit"]</button>
+            <MudButton Variant="Variant.Filled" Color="Color.Default" @onclick="@(()=>NavigationManager.NavigateTo($"/reservation_edit/{context.Id}"))">@localizer["Edit"]</MudButton>
         </MudTd>
     </RowTemplate>
     <PagerContent>
