@@ -13,8 +13,9 @@ else
 @localizer[@Message]
 <EditForm Model="@ContactType" class="forms-sample" OnValidSubmit="SaveItem">
     <DataAnnotationsValidator />
+    <hr />
     <div class="form-group row">
-        <label for="exampleInputName1">@localizer["Name"]  </label>
+        <label class="col-sm-2 col-form-label">@localizer["Name"]</label>
         <div class="col-sm-10">
             <input style="width: 300px;" type="text" class="form-control" placeholder="@localizer["Name"]" @bind-value="ContactType.Name">
             <ValidationMessage For="()=>ContactType.Name" />

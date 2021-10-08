@@ -13,34 +13,31 @@ else
 @localizer[@Message]
 <EditForm Model="@contact" class="forms-sample" OnValidSubmit="SaveItem">
     <DataAnnotationsValidator />
+    <hr />
     <div class="form-group row">
-        <label>@localizer["Name"]  </label>
-        <div class="col-sm-6">
+        <label class="col-sm-2 col-form-label">@localizer["Name"]</label>
+        <div class="col-sm-10">
             <input style="width: 300px;" type="text" class="form-control" placeholder="@localizer["Name"]" @bind-value="contact.Name">
             <ValidationMessage For="()=>contact.Name" />
         </div>
     </div>
-    <div class="row">
-        <div class="form-group row">
-            <label>@localizer["Birthdate"]</label>
-            <div class="col-sm-6">
-                <InputDate @bind-Value="contact.BirthDate" ParsingErrorMessage="@localizer["Must be a date"]" />
-                <ValidationMessage For="() => contact.BirthDate" />
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group row">
-            <label>@localizer["Phone Number"]</label>
-            <div class="col-sm-6">
-                <input style="width: 300px;" type="text" class="form-control" placeholder="@localizer["Phone Number"]" @bind-value="contact.PhoneNumber">
-                <ValidationMessage For="() => contact.PhoneNumber" />
-            </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">@localizer["Birthdate"]</label>
+        <div class="col-sm-10">
+            <InputDate @bind-Value="contact.BirthDate" ParsingErrorMessage="@localizer["Must be a date"]" />
+            <ValidationMessage For="() => contact.BirthDate" />
         </div>
     </div>
     <div class="form-group row">
-        <label>@localizer["Contact Type"]</label>
-        <div class="col-sm-9">
+        <label class="col-sm-2 col-form-label">@localizer["Phone Number"]</label>
+        <div class="col-sm-10">
+            <input style="width: 300px;" type="text" class="form-control" placeholder="@localizer["Phone Number"]" @bind-value="contact.PhoneNumber">
+            <ValidationMessage For="() => contact.PhoneNumber" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">@localizer["Contact Type"]</label>
+        <div class="col-sm-10">
             <select class="form-control" @bind="@contact.ContactTypeID" style="width:200px">
                 <option value="null">@localizer["Select a contact type"]</option>
                 @foreach (var item in contactTypes)

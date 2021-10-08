@@ -8,7 +8,6 @@
 @* Localization for Automatic Translation using the browser language configuration *@
 @localizer[@Message]
 <h3>@localizer["Reservations"]</h3>
-<button><a href="/reservation_edit/0">@localizer["New Reservation"]</a></button>
 <div class="form-group row">
     <label>@localizer["Sort"]</label>
     <div class="col-sm-9">
@@ -19,6 +18,7 @@
             <option value="3">@localizer["By Alphabetic Descending"]</option>
             <option value="4">@localizer["By Ranking"]</option>
         </select>
+        <button @onclick="@(()=>NavigationManager.NavigateTo("/reservation_edit/0"))">@localizer["New Reservation"]</button>
     </div>
 </div>
 <table class="table table-striped table-bordered">    
@@ -30,12 +30,11 @@
                     <p><strong style="color: rgb(68, 68, 68);">@item.Destination.Name</strong></p>
                     <strong style="color: rgb(136, 136, 136);"><em>@item.Date.ToLongDateString()</em></strong>
                 </td>
-                <td>@item.Date</td>
-                <td>@item.Contact.Name</td>
-                <td>@((MarkupString)item.Description)</td>
+                <td>
+                    Ranking: @item.Ranking
+                </td>
                 <td>
                     <button @onclick="@(()=>NavigationManager.NavigateTo($"/reservation_edit/{item.Id}"))">@localizer["Edit"]</button>
-                    <button @onclick="()=>Delete(item)">@localizer["Delete"]</button>
                 </td>
             </tr>
         }
