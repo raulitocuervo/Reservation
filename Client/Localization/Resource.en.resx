@@ -120,8 +120,26 @@
   <data name="Actions" xml:space="preserve">
     <value>Actions</value>
   </data>
+  <data name="Birth Date" xml:space="preserve">
+    <value>Birth Date</value>
+  </data>
   <data name="Birthdate" xml:space="preserve">
     <value>Birthdate</value>
+  </data>
+  <data name="By Alphabetic Ascending" xml:space="preserve">
+    <value>By Alphabetic Ascending</value>
+  </data>
+  <data name="By Alphabetic Descending" xml:space="preserve">
+    <value>By Alphabetic Descending</value>
+  </data>
+  <data name="By Date Ascending" xml:space="preserve">
+    <value>By Date Ascending</value>
+  </data>
+  <data name="By Date Descending" xml:space="preserve">
+    <value>By Date Descending</value>
+  </data>
+  <data name="By Ranking" xml:space="preserve">
+    <value>By Ranking</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
@@ -221,6 +239,9 @@
   </data>
   <data name="Select a destination" xml:space="preserve">
     <value>Select a destination</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
   </data>
   <data name="Sort" xml:space="preserve">
     <value>Sort</value>

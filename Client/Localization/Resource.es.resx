@@ -123,6 +123,21 @@
   <data name="Birthdate" xml:space="preserve">
     <value>Fecha de nacimiento</value>
   </data>
+  <data name="By Alphabetic Ascending" xml:space="preserve">
+    <value>Por orden alfabético ascendente</value>
+  </data>
+  <data name="By Alphabetic Descending" xml:space="preserve">
+    <value>Por orden alfabético descendente</value>
+  </data>
+  <data name="By Date Ascending" xml:space="preserve">
+    <value>Por fecha ascendente</value>
+  </data>
+  <data name="By Date Descending" xml:space="preserve">
+    <value>Por fecha descendente</value>
+  </data>
+  <data name="By Ranking" xml:space="preserve">
+    <value>Por ranking</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancelar</value>
   </data>
@@ -221,6 +236,9 @@
   </data>
   <data name="Select a destination" xml:space="preserve">
     <value>Seleccione un destino</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Clasificar</value>
   </data>
   <data name="This field is required" xml:space="preserve">
     <value>Este campo es obligatorio</value>

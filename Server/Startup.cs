@@ -26,8 +26,9 @@ namespace Reservation.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DbDataContext>(options => { options.UseSqlServer(Configuration.GetConnectionString("SqlServer")); });
-            //services.AddDbContext<DbDataContext>(options => { options.UseInMemoryDatabase(databaseName: "Reservations"); });
+            //Uncomment this for SQL SERVER connection, Update-Database for deployment
+            //services.AddDbContext<DbDataContext>(options => { options.UseSqlServer(Configuration.GetConnectionString("SqlServer")); });
+            services.AddDbContext<DbDataContext>(options => { options.UseInMemoryDatabase(databaseName: "Reservations"); });
             services.AddScoped<ReservationService>();
             services.AddControllersWithViews();
             services.AddRazorPages();
