@@ -17,13 +17,13 @@
 </head>
 
 <body>
-    <div id="app">Loading...</div>
-
-    <div id="blazor-error-ui">
-        An unhandled error has occurred.
-        <a href="" class="reload">Reload</a>
-        <a class="dismiss">🗙</a>
+    <div id="app">
+        <div style="position:absolute; top:30vh; width:100%; text-align:center">
+            <h1>ISUCorp - Reservations</h1>
+            <p><i class="fas fa-spin fa-spinner"></i> Getting there, just a sec...</p>
+        </div>
     </div>
+
     <script src="_framework/blazor.webassembly.js"></script>
     <!--Text Editor-->
     <script src="/TextEditor/quill.js"></script>
@@ -31,9 +31,11 @@
     <script src="_content/Blazored.TextEditor/Blazored-BlazorQuill.js"></script>
     <!--DataTables-->
     <script src="/datatables/jquery-3.6.0.min.js"></script>
-    <script src="/datatables/jquery.dataTables.min.js"></script>
+    <script src="/datatables/jquery.dataTables.min.js"></script>    
+
     <script>
         function ActivateTableAll() {
+            $(".table").DataTable().destroy();
             $(".table").DataTable({
                 responsive: true
             });

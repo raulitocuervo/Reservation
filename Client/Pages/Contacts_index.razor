@@ -12,19 +12,25 @@
     <thead>
         <tr>
             <th>@localizer["Names"]</th>
+            <th>@localizer["Birth Date"]</th>
+            <th>@localizer["Contact Type"]</th>
+            <th>@localizer["Phone Number"]</th>
             <th>@localizer["Actions"]</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in contacts)
         {
-            <tr>
-                <td>@item.Name</td>
-                <td>
-                    <button><a href="/contacts_edit/@item.Id">@localizer["Edit"]</a></button>
-                    <button @onclick="()=>Delete(item)">@localizer["Delete"]</button>
-                </td>
-            </tr>
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.BirthDate.ToShortDateString()</td>
+            <td>@item.ContactType.Name</td>
+            <td>@item.PhoneNumber</td>
+            <td>
+                <button><a href="/contacts_edit/@item.Id">@localizer["Edit"]</a></button>
+                <button @onclick="()=>Delete(item)">@localizer["Delete"]</button>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

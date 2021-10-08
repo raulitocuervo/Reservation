@@ -39,7 +39,7 @@ namespace Reservation.Server.Services
         public async Task<ContactType> GetContactTypeById(Guid Id) => await context.ContactTypes.FirstOrDefaultAsync(p => p.Id == Id);
         #endregion
         #region Contacts
-        public async Task<List<Contact>> GetContacts() => await context.Contacts.AsQueryable().AsNoTracking().ToListAsync();
+        public async Task<List<Contact>> GetContacts() => await context.Contacts.Include(p=>p.ContactType).AsQueryable().AsNoTracking().ToListAsync();
         public async Task<Contact> GetContactById(Guid Id) => await context.Contacts.Include(p=>p.ContactType).FirstOrDefaultAsync(p => p.Id == Id);
         #endregion
         #region Destinations
@@ -74,11 +74,18 @@ namespace Reservation.Server.Services
                 await context.ContactTypes.AddRangeAsync(
                     new ContactType
                     {
-                        Name = "Sales Manager"
+                        Name = "Sales Manager",
+                        Contacts = new List<Contact>() { new Contact { Name = "Linda May", BirthDate = new DateTime(1985, 1, 7) } }
                     },
                     new ContactType
                     {
-                        Name = "Trip coordinator"
+                        Name = "Trip coordinator",
+                        Contacts = new List<Contact>() { new Contact { Name = "Joseph Ross", BirthDate = new DateTime(1985, 5, 8) } }
+                    },
+                    new ContactType
+                    {
+                        Name = "President",
+                        Contacts = new List<Contact>() { new Contact { Name = "Frederick Hulsz", BirthDate = new DateTime(1985, 9, 1) } }
                     });
                 }
             if (!(await context.Destinations.AnyAsync()))
