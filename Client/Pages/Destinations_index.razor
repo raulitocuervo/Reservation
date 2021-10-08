@@ -1,9 +1,7 @@
 ﻿@page "/destinations_index"
 @inject ReservationsService ReservationsService
-@inject IJSRuntime JSRuntime
 @inject IStringLocalizer<Resource> localizer
 @using Reservation.Shared.Models
-@implements IAsyncDisposable
 @* Localization for Automatic Translation using the browser language configuration *@
 @localizer[@Message]
 <h3>@localizer["Destinations"]</h3>
@@ -41,21 +39,8 @@
         var results = await ReservationsService.GetDestinations();
         if (results.destinations != null) destinations = results.destinations;
         else Message = results.Message;
-        //Adds invocation interops for JavaScript Datatable initialization, to be run after the page renders
-        //actionsToRunAfterRender.Add(() => JSRuntime.InvokeVoidAsync("ActivateTableAll"));
     }
 
-    //Loads DataTables Js invoking JavaScript Code
-    protected override Task OnAfterRenderAsync(bool firstRender)
-    {
-        foreach (var actionToRun in actionsToRunAfterRender) actionToRun();
-        actionsToRunAfterRender.Clear();
-        return base.OnAfterRenderAsync(firstRender);
-    }
-    public async ValueTask DisposeAsync()
-    {
-        await JSRuntime.InvokeVoidAsync("RemoveTableAll");
-    }
     #endregion
     #region ACTIONS
     private async Task Delete(Destination destination)

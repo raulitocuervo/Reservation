@@ -12,8 +12,9 @@
     <!--Text Editor-->
     <link href="/TextEditor/quill.snow.css" rel="stylesheet">
     <link href="/TextEditor/quill.bubble.css" rel="stylesheet">
-    <!-- DataTables -->
-    <link href="/datatables/jquery.dataTables.min.css" rel="stylesheet" />
+    <!--MudBlazor-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -29,23 +30,8 @@
     <script src="/TextEditor/quill.js"></script>
     <script src="_content/Blazored.TextEditor/quill-blot-formatter.min.js"></script>
     <script src="_content/Blazored.TextEditor/Blazored-BlazorQuill.js"></script>
-    <!--DataTables-->
-    <script src="/datatables/jquery-3.6.0.min.js"></script>
-    <script src="/datatables/jquery.dataTables.min.js"></script>    
-
-    <script>
-        function ActivateTableAll() {
-            $(".table").DataTable().destroy();
-            $(".table").DataTable({
-                responsive: true
-            });
-        }
-        function RemoveTableAll() {
-            $(document).ready(function () {
-                $(".table").DataTable().destroy();
-            });
-        }
-    </script>
+    <!--MudBlazor-->
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
 </body>
 
 </html>

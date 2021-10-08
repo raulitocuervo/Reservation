@@ -120,6 +120,12 @@
   <data name="Actions" xml:space="preserve">
     <value>Comportamiento</value>
   </data>
+  <data name="Add to favorites" xml:space="preserve">
+    <value>Agregar a los favoritos</value>
+  </data>
+  <data name="Birth Date" xml:space="preserve">
+    <value>Fecha de nacimiento</value>
+  </data>
   <data name="Birthdate" xml:space="preserve">
     <value>Fecha de nacimiento</value>
   </data>
@@ -216,6 +222,9 @@
   <data name="Phone Number" xml:space="preserve">
     <value>Número de teléfono</value>
   </data>
+  <data name="Ranking" xml:space="preserve">
+    <value>Clasificación</value>
+  </data>
   <data name="Removed successfully!" xml:space="preserve">
     <value>¡Eliminado con éxito!</value>
   </data>
@@ -236,6 +245,9 @@
   </data>
   <data name="Select a destination" xml:space="preserve">
     <value>Seleccione un destino</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Enviar</value>
   </data>
   <data name="Sort" xml:space="preserve">
     <value>Clasificar</value>

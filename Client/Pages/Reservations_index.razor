@@ -1,10 +1,8 @@
 ﻿@page "/"
 @inject ReservationsService ReservationsService
-@inject IJSRuntime JSRuntime
 @inject IStringLocalizer<Resource> localizer
 @inject NavigationManager NavigationManager  
 @using Reservation.Shared.Models
-@implements IAsyncDisposable
 @* Localization for Automatic Translation using the browser language configuration *@
 @localizer[@Message]
 <h3>@localizer["Reservations"]</h3>
@@ -21,25 +19,31 @@
         <button @onclick="@(()=>NavigationManager.NavigateTo("/reservation_edit/0"))">@localizer["New Reservation"]</button>
     </div>
 </div>
-<table class="table table-striped table-bordered">    
-    <tbody>
-        @foreach (var item in reservations)
-        {
-            <tr>
-                <td>
-                    <p><strong style="color: rgb(68, 68, 68);">@item.Destination.Name</strong></p>
-                    <strong style="color: rgb(136, 136, 136);"><em>@item.Date.ToLongDateString()</em></strong>
-                </td>
-                <td>
-                    Ranking: @item.Ranking
-                </td>
-                <td>
-                    <button @onclick="@(()=>NavigationManager.NavigateTo($"/reservation_edit/{item.Id}"))">@localizer["Edit"]</button>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+
+<MudTable Items="@reservations" Striped="true" Bordered="true">
+    <RowTemplate>
+        <MudTd>
+            <p><strong style="color: rgb(68, 68, 68);">@context.Destination.Name</strong></p>
+            <strong style="color: rgb(136, 136, 136);"><em>@context.Date.ToLongDateString()</em></strong>
+        </MudTd>
+        <MudTd>
+            <p>@localizer["Ranking"]</p>
+            <MudRating SelectedValue=@context.Ranking Size="Size.Small" SelectedValueChanged="@((e)=>RankReservation(context, e))" />
+        </MudTd>
+        <MudTd>
+            @localizer["Add to favorites"]
+            <MudToggleIconButton Toggled="@context.Favorite" ToggledChanged="@((e)=>FavReservation(context, e))"
+                                 Icon="/images/heartfav.svg" Color="@Color.Dark" Title="Off"
+                                 ToggledIcon="/images/heartfav.svg" ToggledColor="@Color.Error" ToggledTitle="On" />
+        </MudTd>
+        <MudTd>
+            <button @onclick="@(()=>NavigationManager.NavigateTo($"/reservation_edit/{context.Id}"))">@localizer["Edit"]</button>
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager HorizontalAlignment="HorizontalAlignment.Left"/>
+    </PagerContent>
+</MudTable>
 
 @code {
     #region PROPERTIES
@@ -58,21 +62,7 @@
     }
     #endregion
     #region INITIALIZATION AND DISPOSAL
-    protected override async Task OnInitializedAsync()
-    {
-        await LoadData();
-        //Adds invocation interops for JavaScript Datatable initialization, to be run after the page renders
-        //actionsToRunAfterRender.Add(() => JSRuntime.InvokeVoidAsync("ActivateTableAll"));
-    }
-
-    //Loads DataTables Js invoking JavaScript Code
-    protected override Task OnAfterRenderAsync(bool firstRender)
-    {
-        foreach (var actionToRun in actionsToRunAfterRender) actionToRun();
-        actionsToRunAfterRender.Clear();
-        return base.OnAfterRenderAsync(firstRender);
-    }
-    public async ValueTask DisposeAsync() => await JSRuntime.InvokeVoidAsync("RemoveTableAll");
+    protected override async Task OnInitializedAsync() => await LoadData();
     #endregion
     #region DATA LOAD
     private async Task LoadData()
@@ -89,6 +79,15 @@
         Message = await ReservationsService.DeleteReservation(reservation);
         if (Message.Contains("success", StringComparison.InvariantCultureIgnoreCase)) reservations.Remove(reservation);
     }
+    private async Task RankReservation(Reservation reservation, int value)
+    {
+        reservation.Ranking = value;
+        await ReservationsService.SaveReservation(reservation, false);
+    }
+    private async Task FavReservation(Reservation reservation, bool value)
+    {
+        reservation.Favorite = value;
+        await ReservationsService.SaveReservation(reservation, false);
+    }
     #endregion
-
 }

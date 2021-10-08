@@ -60,7 +60,7 @@ namespace Reservation.Server.Services
                 case 3:
                     return await context.Reservations.Include(p => p.Contact).Include(p => p.Destination).OrderByDescending(p => p.Destination.Name).AsQueryable().AsNoTracking().ToListAsync();
                 case 4:
-                    return await context.Reservations.Include(p => p.Contact).Include(p => p.Destination).OrderBy(p => p.Ranking).AsQueryable().AsNoTracking().ToListAsync();
+                    return await context.Reservations.Include(p => p.Contact).Include(p => p.Destination).OrderByDescending(p => p.Ranking).AsQueryable().AsNoTracking().ToListAsync();
                 default:
                     return await context.Reservations.Include(p => p.Contact).Include(p => p.Destination).AsQueryable().AsNoTracking().ToListAsync();
             }            
