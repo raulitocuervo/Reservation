@@ -45,7 +45,7 @@
 
             <form action="#" method="POST" class="u-clearfix u-form-horizontal u-form-spacing-15 u-inner-form" style="padding: 15px" source="custom">
                 <div class="u-form-group u-form-name">
-                    <MudAutocomplete Variant="Variant.Outlined" style="width:200px;" T="Contact" Label="@localizer["Contact Name"]" @bind-Value="selectedContact" SearchFunc="@Search2"
+                    <MudAutocomplete CoerceText="false" CoerceValue="true" Variant="Variant.Outlined" style="width:200px;" T="Contact" Label="@localizer["Contact Name"]" @bind-Value="selectedContact" SearchFunc="@Search2"
                                      ResetValueOnEmptyText="@true"
                                      AdornmentIcon="@Icons.Material.Filled.SupervisedUserCircle" AdornmentColor="Color.Default" ToStringFunc="@(e=> e==null?null : $"{e.Name}")" />
                 </div>
@@ -133,9 +133,9 @@
 </section>
 
 @code {
-    #region PROPERTIES
-    [Parameter] public string reservationId { get; set; }
-    private Reservation reservation = new() { Date = DateTime.Now, Contact = new() };
+        #region PROPERTIES
+        [Parameter] public string reservationId { get; set; }
+    private Reservation reservation = new() { Date = DateTime.Now, Contact = new Contact { BirthDate = DateTime.Now } };
     private List<ContactType> contactTypes = new();
     private List<Contact> contacts = new();
     private List<Destination> destinations = new();
@@ -143,10 +143,14 @@
     private string Message = "";
     public Contact selectedContact
     {
-        get => reservation.Contact; set
+        get => reservation.Contact;
+        set
         {
-            reservation.Contact = value;
-            reservation.ContactId = value.Id;
+            if (value != null)
+            {
+                reservation.Contact = value;
+                reservation.ContactId = value.Id;
+            }
         }
     }
     #endregion
@@ -177,9 +181,11 @@
     #region ACTIONS
     private async Task SaveItem()
     {
+        //Adding new contact if doesn't exists
+        if (!contacts.Any(p => p.Id == selectedContact.Id))
+            await ReservationsService.SaveContact(selectedContact, true);
         //Fixing Autocomplete behaviour
         reservation.Contact = null;
-        
         //Saving Reservation considering its Id for creation or edition
         var results = await ReservationsService.SaveReservation(reservation, reservationId?.Length < 2);
         //Navigate to Reservations' List Page
@@ -191,8 +197,11 @@
     {
         // if text is null or empty, don't return values (drop-down will not open)
         if (string.IsNullOrEmpty(value))
+        {
             return new Contact[0];
-        return contacts.Where(x => x.Name.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+        }
+        var results = contacts.Where(x => x.Name.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+        return results.Any() ? results : new Contact[] { new Contact { Name = value, BirthDate = DateTime.Now, Id = Guid.NewGuid() } };
     }
     #endregion
 }
