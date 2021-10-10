@@ -4,25 +4,63 @@
 @inject IStringLocalizer<Resource> localizer
 @inject NavigationManager NavigationManager
 @using Reservation.Shared.Models
-<h3>
-    @if (destinationId == "0")
-    {@localizer["Create Destination"]}
-else
-{ @localizer["Edit Destination"]}
-</h3>
-@localizer[@Message]
-<EditForm Model="@destination" class="forms-sample" OnValidSubmit="SaveItem">
-    <DataAnnotationsValidator />
-    <hr />
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">@localizer["Name"]</label>
-        <div class="col-sm-10">
-            <input style="width: 300px;" type="text" class="form-control" placeholder="@localizer["Name"]" @bind-value="destination.Name">
-            <ValidationMessage For="()=>destination.Name" />
+
+<section class="u-clearfix u-grey-5 u-section-1" id="sec-462a">
+    <div class="u-clearfix u-sheet u-sheet-1">
+        <div class="u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
+            <div class="u-layout">
+                <div class="u-layout-row">
+                    <div class="u-container-style u-layout-cell u-size-20 u-layout-cell-1">
+                        <div class="u-container-layout u-container-layout-1">
+                            <h4 class="u-text u-text-default u-text-palette-2-base u-text-1">
+                                @if (destinationId == "0")
+                                {@localizer["Create Destination"]}
+                            else
+                            { @localizer["Edit Destination"]}
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="u-container-style u-layout-cell u-size-20 u-layout-cell-2">
+                        <div class="u-container-layout u-container-layout-2">
+                            <h6 class="u-text u-text-default u-text-palette-3-dark-2 u-text-2">
+                                <span style="font-size: 0.875rem;"> Lorem ipsum dolor sit amet consectetur adipiscing elit praesent tempor sodales inceptos varius, nisl placerat dictum curae nascetur elementum aliquam rhoncus aliquet bibendum condimentum</span>
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="u-container-style u-layout-cell u-size-20 u-layout-cell-3">
+                        <div class="u-container-layout u-container-layout-3">
+                            <a href="/destinations_index" class="u-active-palette-5-light-2 u-border-none u-btn u-button-style u-hover-palette-2-base u-palette-5-base u-btn-1">@localizer["Destinations"]</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Error">@localizer["Save"]</MudButton>
-</EditForm>
+</section>
+<section class="u-clearfix u-custom-color-2 u-section-2" id="sec-8458">
+    <div class="u-clearfix u-sheet u-sheet-1">
+        <div class="u-form u-form-1">
+            @localizer[@Message]
+        </div>
+        <div class="u-form u-form-2">
+            <EditForm Model="@destination" OnValidSubmit="SaveItem" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" name="form" style="padding: 10px;">
+                <DataAnnotationsValidator />                
+                <div class="u-form-group u-form-name">
+                    <label for="name-558c" class="u-form-control-hidden u-label">@localizer["Name"]</label>
+                    <input type="text" @bind-value="destination.Name" placeholder="@localizer["Name"]" id="name-558c" name="name" class="u-border-1 u-border-grey-30 u-input u-input-rectangle" required="">
+                    <ValidationMessage For="()=>destination.Name" />
+                </div>
+                <ValidationSummary />
+                <div class="u-align-right u-form-group u-form-submit">
+                    <button type="submit" class="u-active-palette-2-light-3 u-border-none u-btn u-btn-submit u-button-style u-custom-color-3 u-hover-custom-color-4 u-btn-2">@localizer["Save"]</button>
+                </div>
+                <div class="u-form-send-message u-form-send-success"> Gracias! Tu mensaje ha sido enviado. </div>
+                <div class="u-form-send-error u-form-send-message"> No se puede enviar su mensaje. Por favor, corrija los errores y vuelva a intentarlo. </div>
+                <input type="hidden" value="" name="recaptchaResponse">
+            </EditForm>
+        </div>
+    </div>
+</section>
 
 @code {
     #region PROPERTIES

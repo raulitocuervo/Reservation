@@ -4,109 +4,151 @@
 @inject IStringLocalizer<Resource> localizer
 @inject NavigationManager NavigationManager
 @using Reservation.Shared.Models
-<h3>
-    @if (reservationId == "0")
-    {@localizer["Create Reservation"]}
-else
-{ @localizer["Edit Reservation"]}
-</h3>
-@localizer[@Message]
-<EditForm Model="@reservation" class="forms-sample" OnValidSubmit="SaveItem">
-    <DataAnnotationsValidator />
-    <hr />
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">@localizer["Destination"]</label>
-        <div class="col-sm-10">
-            <select class="form-control" @bind="@reservation.DestinationId" style="width:250px">
-                <option value="null">@localizer["Select a destination"]</option>
-                @foreach (var item in destinations)
-                {
-                    <option value="@item.Id">@item.Name</option>
-                }
-            </select>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">@localizer["Date"]</label>
-        <div class="col-sm-10">
-            <InputDate @bind-Value="reservation.Date" ParsingErrorMessage="@localizer["Must be a date"]" />
-        </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">@localizer["Contact"]</label>
-        <div class="col-sm-10">            
-            <form class="form-inline" style="margin-right:4px;">
-                <div class="form-group">                 
-                <MudAutocomplete Variant="Variant.Outlined" style="width:250px;" T="Contact" Label="@localizer["Contact Name"]" @bind-Value="selectedContact" SearchFunc="@Search2"
-                                 ResetValueOnEmptyText="@true"
-                                 AdornmentIcon="@Icons.Material.Filled.SupervisedUserCircle" AdornmentColor="Color.Default" ToStringFunc="@(e=> e==null?null : $"{e.Name}")"/>
+
+
+<section class="u-clearfix u-grey-5 u-section-1" id="sec-462a">
+    <div class="u-clearfix u-sheet u-sheet-1">
+        <div class="u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
+            <div class="u-layout">
+                <div class="u-layout-row">
+                    <div class="u-container-style u-layout-cell u-size-20 u-layout-cell-1">
+                        <div class="u-container-layout u-container-layout-1">
+                            <h4 class="u-text u-text-default u-text-palette-2-base u-text-1">
+                                @if (reservationId == "0")
+                                {@localizer["Create Reservation"]}
+                            else
+                            { @localizer["Edit Reservation"]}
+                            </h4>
+                        </div>
                     </div>
-                <div class="form-group">                    
-                    <MudSelect Placeholder="@localizer["Contact Type"]" @bind-Value="reservation.Contact.ContactType" Variant="Variant.Outlined" ToStringFunc="@(e=> e==null?null : $"{e.Name}")" Style="width:250px;"
-                               OffsetY="true" AdornmentIcon="@Icons.Material.Filled.People" AdornmentColor="Color.Default">
-                        @foreach (var types in contactTypes)
-                        {
-                            <MudSelectItem  Value="@types"/>
-                        }
-                    </MudSelect>
-                    <MudTextField Variant="Variant.Outlined" @bind-Value="reservation.Contact.PhoneNumber" AdornmentIcon="@Icons.Material.Filled.Phone" AdornmentColor="Color.Default" Placeholder="@localizer["Phone Number"]"></MudTextField>
+                    <div class="u-container-style u-layout-cell u-size-20 u-layout-cell-2">
+                        <div class="u-container-layout u-container-layout-2">
+                            <h6 class="u-text u-text-default u-text-palette-3-dark-2 u-text-2">
+                                <span style="font-size: 0.875rem;"> Lorem ipsum dolor sit amet consectetur adipiscing elit praesent tempor sodales inceptos varius, nisl placerat dictum curae nascetur elementum aliquam rhoncus aliquet bibendum condimentum</span>
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="u-container-style u-layout-cell u-size-20 u-layout-cell-3">
+                        <div class="u-container-layout u-container-layout-3">
+                            <a href="/" class="u-active-palette-5-light-2 u-border-none u-btn u-button-style u-hover-palette-2-base u-palette-5-base u-btn-1">@localizer["Reservations List"]</a>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="u-clearfix u-custom-color-2 u-section-2" id="sec-8458">
+    <div class="u-clearfix u-sheet u-sheet-1">
+        <div class="u-form u-form-1">
+            @localizer[@Message]           
+
+            <form action="#" method="POST" class="u-clearfix u-form-horizontal u-form-spacing-15 u-inner-form" style="padding: 15px" source="custom">
+                <div class="u-form-group u-form-name">
+                    <MudAutocomplete Variant="Variant.Outlined" style="width:200px;" T="Contact" Label="@localizer["Contact Name"]" @bind-Value="selectedContact" SearchFunc="@Search2"
+                                     ResetValueOnEmptyText="@true"
+                                     AdornmentIcon="@Icons.Material.Filled.SupervisedUserCircle" AdornmentColor="Color.Default" ToStringFunc="@(e=> e==null?null : $"{e.Name}")" />
+                </div>
+                <div class="u-form-group u-form-select u-form-group-2">
+                    <div class="u-form-select-wrapper">
+                        <select id="select-e457" style="width:150px" name="select" class="u-border-1 u-border-grey-30 u-input u-input-rectangle" @bind="@reservation.Contact.ContactTypeID" required="">
+                            <option value="null">@localizer["Select a contact type"]</option>
+                            @foreach (var types in contactTypes)
+                            {
+                                <option value="@types.Id">@types.Name</option>
+                            }
+                        </select>                       
+                    </div>
+                </div>                
+                <div class="u-form-group u-form-phone u-form-group-4">
+                    <input type="tel" style="width:100px" pattern="\+?\d{0,3}[\s\(\-]?([0-9]{2,3})[\s\)\-]?([\s\-]?)([0-9]{3})[\s\-]?([0-9]{2})[\s\-]?([0-9]{2})" placeholder="@localizer["Phone Number"]" id="phone-46e8" name="phone" class="u-border-1 u-border-grey-30 u-input u-input-rectangle" @bind-value="reservation.Contact.PhoneNumber" required="">
+                </div>
+                <div class="u-form-date u-form-group u-form-group-5">
+                    <input type="date" style="width:150px;" placeholder="MM/DD/YYYY" id="date-9415" name="date" class="u-border-1 u-border-grey-30 u-input u-input-rectangle" @bind-value="reservation.Contact.BirthDate" required="">
+                </div>                
             </form>
         </div>
-    </div>
-    <div class="form-group row">
-        <label for="email" class="col-sm-2 col-form-label">@localizer["Description"]</label>
-        <div class="col-sm-10" @onfocusout="async()=>reservation.Description = await QuillHtml.GetHTML()">
-            <BlazoredTextEditor @ref="@QuillHtml">
-                <ToolbarContent>
-                    <select class="ql-header">
-                        <option selected=""></option>
-                        <option value="1"></option>
-                        <option value="2"></option>
-                        <option value="3"></option>
-                        <option value="4"></option>
-                        <option value="5"></option>
-                    </select>
-                    <span class="ql-formats">
-                        <button class="ql-bold"></button>
-                        <button class="ql-italic"></button>
-                        <button class="ql-underline"></button>
-                        <button class="ql-strike"></button>
-                    </span>
-                    <span class="ql-formats">
-                        <select class="ql-color"></select>
-                        <select class="ql-background"></select>
-                    </span>
-                    <span class="ql-formats">
-                        <button class="ql-list" value="ordered"></button>
-                        <button class="ql-list" value="bullet"></button>
-                    </span>
-                    <span class="ql-formats">
-                        <button class="ql-link"></button>
-                    </span>
-                </ToolbarContent>
-                <EditorContent>@((MarkupString)reservation.Description)</EditorContent>
-            </BlazoredTextEditor>
+        <div class="u-form u-form-2">
+            <EditForm Model="@reservation" OnValidSubmit="SaveItem" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" name="form" style="padding: 10px;">
+                <DataAnnotationsValidator />
+                <div class="u-form-group u-form-select u-form-group-7">
+                    <label for="select-302b" class="u-label">@localizer["Destination"]</label>
+                    <div class="u-form-select-wrapper">
+                        <select id="select-302b" name="select" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-palette-3-light-3" @bind="@reservation.DestinationId" required="">
+                            <option value="null">@localizer["Select a destination"]</option>
+                            @foreach (var item in destinations)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="u-form-date u-form-group u-form-group-8">
+                    <label for="date-f055" class="u-label">@localizer["Date"]</label>
+                    <input type="date" placeholder="MM/DD/YYYY" id="date-f055" name="date" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-palette-3-light-3" @bind-value="reservation.Date" required="">
+                </div>
+                <div class="u-form-group u-form-textarea u-form-group-9" @onfocusout="async()=>reservation.Description = await QuillHtml.GetHTML()">
+                    <label for="textarea-b67c" class="u-label">@localizer["Description"]</label>
+                    <BlazoredTextEditor @ref="@QuillHtml">
+                        <ToolbarContent>
+                            <select class="ql-header">
+                                <option selected=""></option>
+                                <option value="1"></option>
+                                <option value="2"></option>
+                                <option value="3"></option>
+                                <option value="4"></option>
+                                <option value="5"></option>
+                            </select>
+                            <span class="ql-formats">
+                                <button class="ql-bold"></button>
+                                <button class="ql-italic"></button>
+                                <button class="ql-underline"></button>
+                                <button class="ql-strike"></button>
+                            </span>
+                            <span class="ql-formats">
+                                <select class="ql-color"></select>
+                                <select class="ql-background"></select>
+                            </span>
+                            <span class="ql-formats">
+                                <button class="ql-list" value="ordered"></button>
+                                <button class="ql-list" value="bullet"></button>
+                            </span>
+                            <span class="ql-formats">
+                                <button class="ql-link"></button>
+                            </span>
+                        </ToolbarContent>
+                        <EditorContent>@((MarkupString)reservation.Description)</EditorContent>
+                    </BlazoredTextEditor>
+                </div>
+                <ValidationSummary />
+                <div class="u-align-right u-form-group u-form-submit">
+                    <button type="submit" class="u-active-palette-2-light-3 u-border-none u-btn u-btn-submit u-button-style u-custom-color-3 u-hover-custom-color-4 u-btn-2">@localizer["Send"]</button>
+                </div>
+                <div class="u-form-send-message u-form-send-success"> Gracias! Tu mensaje ha sido enviado. </div>
+                <div class="u-form-send-error u-form-send-message"> No se puede enviar su mensaje. Por favor, corrija los errores y vuelva a intentarlo. </div>
+                <input type="hidden" value="" name="recaptchaResponse">
+            </EditForm>
         </div>
     </div>
-    <ValidationSummary />
-    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Error">@localizer["Send"]</MudButton>
-</EditForm>
+</section>
 
 @code {
-        #region PROPERTIES
-        [Parameter] public string reservationId { get; set; }
+    #region PROPERTIES
+    [Parameter] public string reservationId { get; set; }
     private Reservation reservation = new() { Date = DateTime.Now, Contact = new() };
     private List<ContactType> contactTypes = new();
     private List<Contact> contacts = new();
     private List<Destination> destinations = new();
     private BlazoredTextEditor QuillHtml;
     private string Message = "";
-    public Contact selectedContact { get => reservation.Contact; set
+    public Contact selectedContact
+    {
+        get => reservation.Contact; set
         {
             reservation.Contact = value;
             reservation.ContactId = value.Id;
-        } }
+        }
+    }
     #endregion
     #region INITIALIZATION AND DISPOSAL
     //Reusing the same form for both create and edit item
@@ -137,6 +179,7 @@ else
     {
         //Fixing Autocomplete behaviour
         reservation.Contact = null;
+        
         //Saving Reservation considering its Id for creation or edition
         var results = await ReservationsService.SaveReservation(reservation, reservationId?.Length < 2);
         //Navigate to Reservations' List Page

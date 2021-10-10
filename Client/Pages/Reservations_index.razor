@@ -1,48 +1,76 @@
 ﻿@page "/"
 @inject ReservationsService ReservationsService
 @inject IStringLocalizer<Resource> localizer
-@inject NavigationManager NavigationManager  
+@inject NavigationManager NavigationManager
 @using Reservation.Shared.Models
 @* Localization for Automatic Translation using the browser language configuration *@
-@localizer[@Message]
-<h3>@localizer["Reservations"]</h3>
-<div class="form-group row">
-    <div class="col-sm-2">
-        <MudButton Variant="Variant.Filled" Color="Color.Error" @onclick="@(()=>NavigationManager.NavigateTo("/reservation_edit/0"))">@localizer["New Reservation"]</MudButton>        
-        <MudSelect Label="@localizer["Sort"]" @bind-Value="Order" OffsetY="true" AdornmentIcon="@Icons.Material.Filled.Sort" AdornmentColor="Color.Default">
-            <MudSelectItem Value="0">@localizer["By Date Ascending"]</MudSelectItem>
-            <MudSelectItem Value="1">@localizer["By Date Descending"]</MudSelectItem>
-            <MudSelectItem Value="2">@localizer["By Alphabetic Ascending"]</MudSelectItem>
-            <MudSelectItem Value="3">@localizer["By Alphabetic Descending"]</MudSelectItem>
-            <MudSelectItem Value="4">@localizer["By Ranking"]</MudSelectItem>
-        </MudSelect>
-    </div>
-</div>
 
-<MudTable Items="@reservations" Striped="true" Bordered="true">
-    <RowTemplate>
-        <MudTd>
-            <p><strong style="color: rgb(68, 68, 68);">@context.Destination.Name</strong></p>
-            <strong style="color: rgb(136, 136, 136);"><em>@context.Date.ToLongDateString()</em></strong>
-        </MudTd>
-        <MudTd>
-            <p>@localizer["Ranking"]</p>
-            <MudRating SelectedValue=@context.Ranking Size="Size.Small" SelectedValueChanged="@((e)=>RankReservation(context, e))" />
-        </MudTd>
-        <MudTd>
-            @localizer["Add to favorites"]
-            <MudToggleIconButton Toggled="@context.Favorite" ToggledChanged="@((e)=>FavReservation(context, e))"
-                                 Icon="@Icons.Material.Filled.FavoriteBorder" Color="@Color.Dark" Title="Off"
-                                 ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Error" ToggledTitle="On" />
-        </MudTd>
-        <MudTd>
-            <MudButton Variant="Variant.Filled" Color="Color.Default" @onclick="@(()=>NavigationManager.NavigateTo($"/reservation_edit/{context.Id}"))">@localizer["Edit"]</MudButton>
-        </MudTd>
-    </RowTemplate>
-    <PagerContent>
-        <MudTablePager HorizontalAlignment="HorizontalAlignment.Left"/>
-    </PagerContent>
-</MudTable>
+<section class="u-clearfix u-grey-5 u-section-1" id="sec-462a">
+    <div class="u-clearfix u-sheet u-sheet-1">
+        <div class="u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
+            <div class="u-layout">
+                <div class="u-layout-row">
+                    <div class="u-container-style u-layout-cell u-size-20 u-layout-cell-1">
+                        <div class="u-container-layout u-container-layout-1">
+                            <h4 class="u-text u-text-default u-text-palette-2-base u-text-1">@localizer["Reservations List"]</h4>
+                        </div>
+                    </div>
+                    <div class="u-container-style u-layout-cell u-size-20 u-layout-cell-2">
+                        <div class="u-container-layout u-container-layout-2">
+                            <h6 class="u-text u-text-default u-text-palette-3-dark-2 u-text-2">
+                                <span style="font-size: 0.875rem;"> Lorem ipsum dolor sit amet consectetur adipiscing elit praesent tempor sodales inceptos varius, nisl placerat dictum curae nascetur elementum aliquam rhoncus aliquet bibendum condimentum</span>
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="u-container-style u-layout-cell u-size-20 u-layout-cell-3">
+                        <div class="u-container-layout u-container-layout-3">
+                            <a href="/reservation_edit/0" class="u-active-palette-5-light-2 u-border-none u-btn u-button-style u-hover-palette-2-base u-palette-5-base u-btn-1">@localizer["New Reservation"]</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="u-clearfix u-custom-color-2 u-section-2" id="sec-8458">
+    <div class="u-clearfix u-sheet u-sheet-1">
+        <div class="form-group row">
+            <div class="col-sm-2">
+                <MudSelect Label="@localizer["Sort"]" @bind-Value="Order" OffsetY="true" AdornmentIcon="@Icons.Material.Filled.Sort" AdornmentColor="Color.Default">
+                    <MudSelectItem Value="0">@localizer["By Date Ascending"]</MudSelectItem>
+                    <MudSelectItem Value="1">@localizer["By Date Descending"]</MudSelectItem>
+                    <MudSelectItem Value="2">@localizer["By Alphabetic Ascending"]</MudSelectItem>
+                    <MudSelectItem Value="3">@localizer["By Alphabetic Descending"]</MudSelectItem>
+                    <MudSelectItem Value="4">@localizer["By Ranking"]</MudSelectItem>
+                </MudSelect>
+            </div>
+        </div>
+        <MudTable Items="@reservations" Striped="true" Bordered="true">
+            <RowTemplate>
+                <MudTd>
+                    <p><strong style="color: rgb(68, 68, 68);">@context.Destination.Name</strong></p>
+                    <strong style="color: rgb(136, 136, 136);"><em>@context.Date.ToLongDateString()</em></strong>
+                </MudTd>
+                <MudTd>
+                    <p>@localizer["Ranking"]</p>
+                    <MudRating SelectedValue=@context.Ranking Size="Size.Small" SelectedValueChanged="@((e)=>RankReservation(context, e))" />
+                </MudTd>
+                <MudTd>
+                    @localizer["Add to favorites"]
+                    <MudToggleIconButton Toggled="@context.Favorite" ToggledChanged="@((e)=>FavReservation(context, e))"
+                                         Icon="@Icons.Material.Filled.FavoriteBorder" Color="@Color.Dark" Title="Off"
+                                         ToggledIcon="@Icons.Material.Filled.Favorite" ToggledColor="@Color.Error" ToggledTitle="On" />
+                </MudTd>
+                <MudTd>
+                    <MudButton Variant="Variant.Filled" Color="Color.Default" @onclick="@(()=>NavigationManager.NavigateTo($"/reservation_edit/{context.Id}"))">@localizer["Edit"]</MudButton>
+                </MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager HorizontalAlignment="HorizontalAlignment.Left" />
+            </PagerContent>
+        </MudTable>
+    </div>
+</section>
 
 @code {
     #region PROPERTIES

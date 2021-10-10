@@ -234,6 +234,9 @@
   <data name="Reservations" xml:space="preserve">
     <value>Reservations</value>
   </data>
+  <data name="Reservations List" xml:space="preserve">
+    <value>Reservations List</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>

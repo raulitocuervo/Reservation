@@ -4,6 +4,30 @@
     <TargetFramework>net5.0</TargetFramework>
     <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Pages\Contacts_edit.razor.css" />
+    <None Remove="Pages\Contacts_index.razor.css" />
+    <None Remove="Pages\ContactTypes_edit.razor.css" />
+    <None Remove="Pages\ContactTypes_index.razor.css" />
+    <None Remove="Pages\Destinations_index.razor.css" />
+    <None Remove="Pages\Destination_edit.razor.css" />
+    <None Remove="Pages\Reservations_index.razor.css" />
+    <None Remove="Pages\Reservation_edit.razor.css" />
+    <None Remove="Shared\MainLayout.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Pages\Contacts_index.razor.css" />
+    <Content Include="Pages\ContactTypes_index.razor.css" />
+    <Content Include="Pages\Destinations_index.razor.css" />
+    <Content Include="Pages\ContactTypes_edit.razor.css" />
+    <Content Include="Pages\Reservations_index.razor.css" />
+    <Content Include="Pages\Destination_edit.razor.css" />
+    <Content Include="Pages\Contacts_edit.razor.css" />
+    <Content Include="Pages\Reservation_edit.razor.css" />
+    <Content Include="Shared\MainLayout.razor.css" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Blazored.TextEditor" Version="1.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.10" />
